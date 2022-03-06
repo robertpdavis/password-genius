@@ -1,1 +1,1 @@
-# pasword-genius
+# password-genius
