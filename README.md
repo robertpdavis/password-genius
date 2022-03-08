@@ -8,11 +8,11 @@ A randomly created password generator with user options to include-
 * numbers 0-9
 * special characters
 
-Minium length 8 charaters up to 128 characters.
+Minium length 8 characters up to 128 characters.
 
 The generator first ensures at least one character from each option is included.
 It then combines all option sets and randomly selects characters up to the total length required.
-Finally it does a shuffle of all characters to ensure no predicability.
+Finally it does a shuffle of all characters to ensure no predictability.
 
 The generator uses the Math.Random to select random characters from the character sets.
 
