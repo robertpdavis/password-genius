@@ -1,9 +1,11 @@
+/* Universal selector styling */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* Default main page styling */
 html,
 body,
 .wrapper {
@@ -12,17 +14,20 @@ body,
   padding: 0;
 }
 
+/* Default body styling */
 body {
   font-family: sans-serif;
   background-color: #f9fbfd;
 }
 
+/* Wrapper class padding */
 .wrapper {
   padding-top: 30px;
   padding-left: 20px;
   padding-right: 20px;
 }
 
+/* Header styling */
 header {
   text-align: center;
   padding: 20px;
@@ -30,6 +35,7 @@ header {
   color: hsl(206, 17%, 28%);
 }
 
+/* Card container styling */
 .card {
   background-color: hsl(0, 0%, 100%);
   border-radius: 5px;
@@ -42,6 +48,7 @@ header {
   padding: 30px 40px;
 }
 
+/* Card header class styling - displays a diving line */
 .card-header::after {
   content: " ";
   display: block;
@@ -50,14 +57,17 @@ header {
   height: 2px;
 }
 
+/* Card body class styling */
 .card-body {
   min-height: 100px;
 }
 
+/* Card footer class styling */
 .card-footer {
   text-align: center;
 }
 
+/* Card footer class styling - displays a diving line */
 .card-footer::before {
   content: " ";
   display: block;
@@ -72,6 +82,7 @@ header {
   clear: both;
 }
 
+/* Button styling */
 .btn {
   border: none;
   background-color: hsl(360, 91%, 36%);
@@ -97,6 +108,7 @@ button[disabled] {
   float: right;
 }
 
+/* Password box styling */
 #password {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -118,6 +130,7 @@ button[disabled] {
   overflow: hidden;
 }
 
+/* Media query for screens up to 690px */
 @media (max-width: 690px) {
   .btn {
     font-size: 1rem;
@@ -130,6 +143,7 @@ button[disabled] {
   }
 }
 
+/* Media query for screens up to 500px */
 @media (max-width: 500px) {
   .btn {
     font-size: 0.8rem;

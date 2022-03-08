@@ -125,9 +125,13 @@ function generatePassword() {
   for (var index = 0; index < passLength; index++) {
     passWord = passWord + getRandom(allChars);
   }
+  console.log(passWord);
 
   //Shuffle password and returm
   passWord = Shuffle(passWord);
+
+  console.log(passWord);
+  console.log(passWord.length);
 
   return passWord;
 }
