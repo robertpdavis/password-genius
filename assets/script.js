@@ -11,7 +11,6 @@ function writePassword() {
 
   //output the created password
   passwordText.value = password;
-
 }
 
 //Add event listener to generate button
@@ -39,7 +38,7 @@ function generatePassword() {
     special:false
   }
 
-  //Use var to do password length check before setting option
+  //Use var to do password length check before setting options
   var passLength = 0;
 
   //Array to hold all required character sets
@@ -49,9 +48,9 @@ function generatePassword() {
   var passWord = "";
 
 
-  //Get password length - check valid input
+  //Get password length - check valid input. Loop to add characters to password until lenth reached.
   while (passLength === 0) {
-    passLength= parseInt(prompt("How many characters do you wish to have in your passeord? (Min:8 Max:128)","8"));
+    passLength= parseInt(prompt("How many characters do you wish to have in your passeord? (Min: 8 Max: 128)","8"));
 
     if (passLength < 8 || passLength > 128 || Number.isNaN(passLength)){
       if (!confirm("Invalid password type or length. Do you wish to try again?")){
@@ -95,9 +94,8 @@ function generatePassword() {
   //Start building password
   //At least 1 character from each option must be included. ALso create combined character set - allChars.
   for (var key in options) {
+    //Check for character options chosen (i.e option = true)
     if (options[key] === true){
-      console.log(key);
-      console.log(options[key]);
       if (key != "upperCase"){
         passWord = passWord + getRandom(charSets[key]);
         allChars = allChars.concat(charSets[key]);
