@@ -2,10 +2,25 @@
 //Assign the doc selector for the button the user clicks to generate the password to a var
 var generateBtn = document.querySelector("#generate");
 
+//Add event listener to generate button
+generateBtn.addEventListener("click", writePassword);
+
+
+//Functions -------------------------------------
+
 //Write password to the #password input
 function writePassword() {
   //Call function to generate the password
   var password = generatePassword();
+
+  //Call again if user confirms
+  if (password === true){
+    password = generatePassword();
+  //User cancels
+  } else if (password === false){
+    password = "Cancelled by user";
+  }
+
   //Assign the doc selector to output the created password to a var
   var passwordText = document.querySelector("#password");
 
@@ -13,15 +28,11 @@ function writePassword() {
   passwordText.value = password;
 }
 
-//Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
-
-
 //Password generator function
 function generatePassword() {
   
   //Set up vars
-  //Character set object --uppercase to be created from lowercase set
+  //Character set object -uppercase to be created from lowercase set
   var charSets = {
     lowerCase:["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
     numeric:["0","1","2","3","4","5","6","7","8","9"],
@@ -30,7 +41,6 @@ function generatePassword() {
 
   //Options object
   var options = {
-    passLength:0,
     //Set all booleans to false
     lowerCase:false,
     upperCase:false,
@@ -38,7 +48,7 @@ function generatePassword() {
     special:false
   }
 
-  //Use var to do password length check before setting options
+  //Var for password length
   var passLength = 0;
 
   //Array to hold all required character sets
@@ -47,20 +57,19 @@ function generatePassword() {
   //Var to hold created password
   var passWord = "";
 
+  //Set the password length.
+  passLength= prompt("How many characters do you wish to have in your passeord? (Min: 8 Max: 128)","8");
 
-  //Get password length - check valid input. Loop to add characters to password until lenth reached.
-  while (passLength === 0) {
-    passLength= parseInt(prompt("How many characters do you wish to have in your passeord? (Min: 8 Max: 128)","8"));
-
-    if (passLength < 8 || passLength > 128 || Number.isNaN(passLength)){
-      if (!confirm("Invalid password type or length. Do you wish to try again?")){
-        return false;
-      }else{
-        generatePassword(0);
-      }
+  //Make sure input only contains digits and meets length requirements - note parseInt will still get through if first character is digit followed by string.
+  //Use regex test instead
+  if (!/^\d+$/.test(passLength) || passLength < 8 || passLength > 128){
+    if (confirm("Invalid password type or length. Do you wish to try again?")){
+      //User wants to try again
+      return true;
+    }else{
+      //User cancels    
+      return false;
     }
-
-    options["passLength"] = passLength;
   }
 
   //Prompt user if lower case letters are required
@@ -82,17 +91,18 @@ function generatePassword() {
   if (confirm("Do you want to include special characters? (e.g. !,?)")){
     options["special"] = true;
   }
-  //Check that at least 1 password type option is chosen. If not, go back.
+
+  //Check that at least 1 password type option is chosen. If not, give user option to do it again or cancel.
   if (!options["lowerCase"] && !options["upperCase"] && !options["numeric"] && !options["special"]) {
-    if (!confirm("At least one password type option must be selected. Do you wish to try again?")){
-      return false;
+    if (confirm("At least one password type option must be selected. Do you wish to try again?")){
+      return true;
     }else{
-      generatePassword(0);
+      return false;
     }
   }
 
-  //Start building password
-  //At least 1 character from each option must be included. ALso create combined character set - allChars.
+  //Password length and options chosen so start building password
+  //At least 1 character from each option must be included. Also create combined character set - allChars.
   for (var key in options) {
     //Check for character options chosen (i.e option = true)
     if (options[key] === true){
@@ -100,31 +110,29 @@ function generatePassword() {
         passWord = passWord + getRandom(charSets[key]);
         allChars = allChars.concat(charSets[key]);
       } else {
+        //Uppercase to use lowercase and convert
         passWord = passWord + getRandom(charSets["lowerCase"]).toUpperCase();
         for (var index = 0; index < charSets["lowerCase"].length; index++) {
           allChars = allChars.concat(charSets["lowerCase"][index].toUpperCase());
         }
       }
-      //Adjust the password length to account for characters added
-      options["passLength"] = options["passLength"] - 1;
+      //Adjust the password length to account for inital characters added
+      passLength = passLength - 1;
     }
   }
 
   //Finish building password
-  for (var index = 0; index < options["passLength"]; index++) {
+  for (var index = 0; index < passLength; index++) {
     passWord = passWord + getRandom(allChars);
   }
 
   //Shuffle password and returm
   passWord = Shuffle(passWord);
 
-  console.log(passWord);
-  console.log(passWord.length);
-
   return passWord;
-
 }
 
+//Function to return random character from array
 function getRandom(itemArray){
 
     //Check parameter is a valid array
@@ -140,13 +148,13 @@ function getRandom(itemArray){
 //Standard shuffle function using Fisher-Yates Shuffle - https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
 function Shuffle(passWord) 
 {
-
   var arrayPassWord = passWord.split("");
 
   for (var i = arrayPassWord.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     [arrayPassWord[i], arrayPassWord[j]] = [arrayPassWord[j], arrayPassWord[i]];
   }
-
   return arrayPassWord.join("");
 }
+
+//End
